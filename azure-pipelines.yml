@@ -6,9 +6,6 @@
 trigger:
 - master
 
-variables:
-  disable.coverage.autogenerate: 'true'
-
 pool:
   vmImage: 'ubuntu-latest'
 strategy:
@@ -37,7 +34,7 @@ steps:
 - script: |
     pip install pytest
     pip install pytest-cov
-    pytest --doctest-modules --junitxml=junit/test-results.xml --cov=. --cov-report xml:coverage.xml --cov-report html:htmlcov
+    pytest --doctest-modules --junitxml=junit/test-results.xml --cov=. --cov-report=xml --cov-report=html
   displayName: 'Test with pytest'
 
 - task: PublishTestResults@2
@@ -45,11 +42,9 @@ steps:
   inputs:
     testResultsFiles: '**/test-*.xml'
     testRunTitle: 'Publish test results for Python $(python.version)'
-  displayName: 'Publish test result'
 
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: Cobertura
     summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
     reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'
-  displayName: 'Publish code coverage result'
