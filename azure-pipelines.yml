@@ -32,6 +32,6 @@ steps:
   displayName: 'Run lint tests'
 
 - script: |
-    pip install pytest pytest-azurepipelines
+    pip install pytest pytest-cov
     pytest
   displayName: 'pytest'
